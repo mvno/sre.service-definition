@@ -1,0 +1,51 @@
+{
+  "steps": [
+    {
+      "name": "eu.gcr.io/$PROJECT_ID/sre.build-settings:1.0.4",
+      "id": "settings",
+      "args": []
+    },
+    {
+      "name": "eu.gcr.io/$PROJECT_ID/sre.build-version:1.0.11",
+      "id": "version",
+      "args": [
+        "$REPO_NAME",
+        "$BRANCH_NAME",
+        "$SHORT_SHA",
+        "$COMMIT_SHA",
+        "$BUILD_ID"
+      ]
+    },
+    {
+      "name": "eu.gcr.io/$PROJECT_ID/sre.build-docker-insource-images:1.0.3",
+      "id": "insource",
+      "args": [
+        "$PROJECT_ID"
+      ]
+    },
+    {
+      "name": "eu.gcr.io/$PROJECT_ID/sre.build-kubernetes-deployments:1.0.32",
+      "id": "kubernetes-deployments",
+      "args": []
+    },
+    {
+      "name": "eu.gcr.io/$PROJECT_ID/sre.build-kubernetes-secrets:1.0.12",
+      "id": "kubernetes-secrets",
+      "args": []
+    },
+    {
+      "name": "eu.gcr.io/$PROJECT_ID/sre.build-kubernetes-labels:1.0.2",
+      "id": "kubernetes-labels",
+      "args": []
+    },
+    {
+      "name": "eu.gcr.io/$PROJECT_ID/sre.build-release:1.0.10",
+      "id": "release",
+      "args": []
+    }
+  ],
+  "logsBucket": "gs://pipeline-build-logs",
+  "options": {
+    "machineType": "N1_HIGHCPU_8"
+  }
+}
