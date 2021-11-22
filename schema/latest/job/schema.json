@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "https://mvno.dk/json/servicedefinition/2021-11-22/job/schema.json",
+  "title": "Service Definition file",
+  "description": "Schema for service definition files used by Mvno",
+  "type": "object",
+  "properties": {
+    "Description": {
+      "description": "Fill out to get detailed info in the SCM about the service. Port and protocol are automatically added to the description.",
+      "type": "string"
+    },
+    "Port": {
+      "description": "Port number must be in the 13K-14K range.",
+      "type": "integer",
+      "exclusiveMinimum": 12999,
+      "exclusiveMaximum": 15000
+    },
+    "RunUnderAccount": {
+      "description": "Defaults to Local which has the lowest degree of permissions like no database access.",
+      "type": "string",
+      "items": {
+        "type": "string",
+        "enum": [
+          "AD",
+          "Local",
+          "Network",
+          "System"
+        ]
+      }
+    },
+    "Databases": {
+      "description": "Describes which databases the pod will have access to.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "The name of the database.",
+            "type": "string"
+          },
+          "Schemas": {
+            "description": "The schemas which the pod needs access to.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "Egress": {
+      "description": "External services you want access to.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Service": {
+            "description": "???",
+            "type": "string"
+          },
+          "Namespace": {
+            "description": "???",
+            "type": "string"
+          },
+          "Port": {
+            "description": "???",
+            "type": "integer"
+          },
+          "Protocol": {
+            "description": "???",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Type": {
+      "description": "One of 'consumer/api/ui/job' until you rename the service correctly",
+      "type": "string"
+    },
+    "CronSchedule": {
+      "description": "Schedule for cronjobs. Use https://crontab.guru/ to generate schedules",
+      "type": "string"
+    },
+    "ExecutionBehaviour": {
+      "description": "Defaults to 'schedule'. Use 'manual-trigger' to disable schedule, this means the job must be invoked directly using sre.ops-board.",
+      "type": "string"
+    }
+  }
+}

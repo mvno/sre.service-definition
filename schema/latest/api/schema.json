@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "https://mvno.dk/json/servicedefinition/2021-11-22/api/schema.json",
+  "title": "Service Definition file",
+  "description": "Schema for service definition files used by Mvno",
+  "type": "object",
+  "properties": {
+    "Description": {
+      "description": "Fill out to get detailed info in the SCM about the service. Port and protocol are automatically added to the description.",
+      "type": "string"
+    },
+    "Port": {
+      "description": "Port number must be in the 13K-14K range.",
+      "type": "integer",
+      "exclusiveMinimum": 12999,
+      "exclusiveMaximum": 15000
+    },
+    "CertificateHash": {
+      "description": "Obsolete. Left for legacy purposes.",
+      "type": "string"
+    },
+    "RunUnderAccount": {
+      "description": "Defaults to Local which has the lowest degree of permissions like no database access.",
+      "type": "string",
+      "items": {
+        "type": "string",
+        "enum": [
+          "AD",
+          "Local",
+          "Network",
+          "System"
+        ]
+      }
+    },
+    "ApiRoutesToPublish": {
+      "description": "[Obsolete] Use 'RoutesToServe' instead. If specified, and a kubernetes cluster is included in the deploy, it will setup these URL's to forward to the deployed service.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "RoutesToServe": {
+      "description": "Routes (api/ui) to expose public on the api-gateway for our customers.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "RequestTimeout": {
+      "description": "Timeout for incoming requests for the fields ApiRoutesToPublish and RoutesToServe in milliseconds.",
+      "type": "integer",
+      "exclusiveMinimum": 0
+    },
+    "Replicas": {
+      "description": "Number of pods running in kubernetes.",
+      "type": "integer",
+      "exclusiveMinimum": 0
+    },
+    "Databases": {
+      "description": "Describes which databases the pod will have access to.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "The name of the database.",
+            "type": "string"
+          },
+          "Schemas": {
+            "description": "The schemas which the pod needs access to.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "Ingress": {
+      "description": "Internal services you want to allow access to your services. By default.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Service": {
+            "description": "???",
+            "type": "string"
+          },
+          "Namespace": {
+            "description": "???",
+            "type": "string"
+          },
+          "Port": {
+            "description": "???",
+            "type": "integer"
+          },
+          "Protocol": {
+            "description": "???",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "DisableRequestLogging": {
+      "description": "Disable all request logging.",
+      "type": "boolean"
+    },
+    "Egress": {
+      "description": "External services you want access to.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Service": {
+            "description": "???",
+            "type": "string"
+          },
+          "Namespace": {
+            "description": "???",
+            "type": "string"
+          },
+          "Port": {
+            "description": "???",
+            "type": "integer"
+          },
+          "Protocol": {
+            "description": "???",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Type": {
+      "description": "One of 'consumer/api/ui/job' until you rename the service correctly",
+      "type": "string"
+    }
+  }
+}

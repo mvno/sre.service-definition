@@ -14,34 +14,58 @@
         "$SHORT_SHA",
         "$COMMIT_SHA",
         "$BUILD_ID"
+      ],
+      "waitFor": [
+        "settings"
       ]
     },
     {
-      "name": "eu.gcr.io/$PROJECT_ID/sre.build-docker-insource-images:1.0.3",
-      "id": "insource",
+      "name": "eu.gcr.io/$PROJECT_ID/sre.build-nuget-cache-restore:1.0.3",
+      "id": "nuget-cache-restore",
       "args": [
-        "$PROJECT_ID"
+        "$REPO_NAME",
+        "$BRANCH_NAME"
+      ],
+      "waitFor": [
+        "-"
       ]
     },
     {
-      "name": "eu.gcr.io/$PROJECT_ID/sre.build-kubernetes-deployments:1.0.32",
-      "id": "kubernetes-deployments",
-      "args": []
+      "name": "eu.gcr.io/$PROJECT_ID/sre.build-docker-cache-build:1.0.6",
+      "id": "cache-build-images",
+      "args": [],
+      "waitFor": [
+        "version"
+      ]
     },
     {
-      "name": "eu.gcr.io/$PROJECT_ID/sre.build-kubernetes-secrets:1.0.12",
-      "id": "kubernetes-secrets",
-      "args": []
+      "name": "sre.build-dotnet:local",
+      "id": "build",
+      "args": [],
+      "waitFor": [
+        "version",
+        "nuget-cache-restore",
+        "cache-build-images"
+      ]
     },
     {
-      "name": "eu.gcr.io/$PROJECT_ID/sre.build-kubernetes-labels:1.0.2",
-      "id": "kubernetes-labels",
-      "args": []
+      "name": "eu.gcr.io/$PROJECT_ID/sre.build-nuget-cache-save:1.0.3",
+      "id": "nuget-cache-save",
+      "args": [
+        "$REPO_NAME",
+        "$BRANCH_NAME"
+      ],
+      "waitFor": [
+        "build"
+      ]
     },
     {
       "name": "eu.gcr.io/$PROJECT_ID/sre.build-release:1.0.10",
       "id": "release",
-      "args": []
+      "args": [],
+      "waitFor": [
+        "nuget-cache-save"
+      ]
     }
   ],
   "logsBucket": "gs://pipeline-build-logs",

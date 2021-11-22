@@ -1,0 +1,284 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "https://mvno.dk/json/servicedefinition/2021-11-22/foundation/schema.json",
+  "title": "Service Definition file",
+  "description": "Schema for service definition files used by Mvno",
+  "type": "object",
+  "properties": {
+    "Description": {
+      "description": "Fill out to get detailed info in the SCM about the service. Port and protocol are automatically added to the description.",
+      "type": "string",
+      "schemaFiles": []
+    },
+    "Port": {
+      "description": "Port number must be in the 13K-14K range.",
+      "type": "integer",
+      "exclusiveMinimum": 12999,
+      "exclusiveMaximum": 15000,
+      "schemaFiles": []
+    },
+    "CertificateHash": {
+      "description": "Obsolete. Left for legacy purposes.",
+      "type": "string",
+      "schemaFiles": [
+        "api",
+        "ui"
+      ]
+    },
+    "RunUnderAccount": {
+      "description": "Defaults to Local which has the lowest degree of permissions like no database access.",
+      "type": "string",
+      "items": {
+        "type": "string",
+        "enum": [
+          "AD",
+          "Local",
+          "Network",
+          "System"
+        ]
+      },
+      "schemaFiles": []
+    },
+    "ApiRoutesToPublish": {
+      "description": "[Obsolete] Use 'RoutesToServe' instead. If specified, and a kubernetes cluster is included in the deploy, it will setup these URL's to forward to the deployed service.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "schemaFiles": [
+        "api"
+      ]
+    },
+    "RoutesToServe": {
+      "description": "Routes (api/ui) to expose public on the api-gateway for our customers.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "schemaFiles": [
+        "api",
+        "ui"
+      ]
+    },
+    "Namespace": {
+      "description": "Describes which kubernetes namespace the application will run under",
+      "type": "string",
+      "items": {
+        "type": "string",
+        "enum": [
+          "default",
+          "api-gateway",
+          "kube-node-lease",
+          "kube-public",
+          "kube-system",
+          "logging",
+          "monitoring",
+          "pipeline",
+          "sysdig-agent"
+        ]
+      },
+      "schemaFiles": [
+        "foundation-only"
+      ]
+    },
+    "RequestTimeout": {
+      "description": "Timeout for incoming requests for the fields ApiRoutesToPublish and RoutesToServe in milliseconds.",
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "schemaFiles": [
+        "api",
+        "ui"
+      ]
+    },
+    "Replicas": {
+      "description": "Number of pods running in kubernetes.",
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "schemaFiles": [
+        "api",
+        "ui",
+        "consumer"
+      ]
+    },
+    "Scaling": {
+      "description": "Enables autoscaling in kubernetes based on load.",
+      "type": "boolean",
+      "schemaFiles": [
+        "foundation-only"
+      ]
+    },
+    "Resources": {
+      "description": "Describes the amount of compute resources the pod will have available.",
+      "type": "object",
+      "properties": {
+        "CpuMin": {
+          "description": "Minimum of CPU units available by the pod. in the format milli-CPU \"100m\". 1000 units equals 1 CPU.",
+          "type": "string"
+        },
+        "CpuMax": {
+          "description": "Maximum of CPU units available by the pod. in the format milli-CPU \"100m\". 1000 units equals 1 CPU.",
+          "type": "string"
+        },
+        "MemoryMin": {
+          "description": "The minimum amount of memory available to the pod. E.g. \"64Mi\" for 64 megabit, \"2Gi\" for 2 gigabit etc.",
+          "type": "string"
+        },
+        "MemoryMax": {
+          "description": "The maximum amount of memory available to the pod. E.g. \"64Mi\" for 64 megabit, \"2Gi\" for 2 gigabit etc.",
+          "type": "string"
+        }
+      },
+      "schemaFiles": [
+        "foundation-only"
+      ]
+    },
+    "Databases": {
+      "description": "Describes which databases the pod will have access to.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "The name of the database.",
+            "type": "string"
+          },
+          "Schemas": {
+            "description": "The schemas which the pod needs access to.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "schemaFiles": []
+    },
+    "InitContainers": {
+      "description": "Additional init containers that can be run before deploying the service to the pod.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "schemaFiles": [
+        "foundation-only"
+      ]
+    },
+    "GrantContainerAccessToSettings": {
+      "description": "[NotInUse] Gives the pod access to the local /settings folder.",
+      "type": "boolean",
+      "schemaFiles": [
+        "foUundation-only"
+      ]
+    },
+    "ServiceAccount": {
+      "description": "Overrules the service account that the pod will be run under.",
+      "type": "string",
+      "schemaFiles": [
+        "foundation-only"
+      ]
+    },
+    "Ingress": {
+      "description": "Internal services you want to allow access to your services. By default.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Service": {
+            "description": "???",
+            "type": "string"
+          },
+          "Namespace": {
+            "description": "???",
+            "type": "string"
+          },
+          "Port": {
+            "description": "???",
+            "type": "integer"
+          },
+          "Protocol": {
+            "description": "???",
+            "type": "string"
+          }
+        }
+      },
+      "schemaFiles": [
+        "api",
+        "ui"
+      ]
+    },
+    "GrantContainersAccessToSettings": {
+      "description": "Grant container access to settings (mount /settings to container)",
+      "type": "boolean",
+      "schemaFiles": [
+        "foundation-only"
+      ]
+    },
+    "DisableRequestLogging": {
+      "description": "Disable all request logging.",
+      "type": "boolean",
+      "schemaFiles": [
+        "api",
+        "ui"
+      ]
+    },
+    "UseHttps": {
+      "description": "Default false for all mvno applications until we are no longer onprem, since onprem do not support https",
+      "type": "boolean",
+      "schemaFiles": [
+        "foundation-only"
+      ]
+    },
+    "Egress": {
+      "description": "External services you want access to.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Service": {
+            "description": "???",
+            "type": "string"
+          },
+          "Namespace": {
+            "description": "???",
+            "type": "string"
+          },
+          "Port": {
+            "description": "???",
+            "type": "integer"
+          },
+          "Protocol": {
+            "description": "???",
+            "type": "string"
+          }
+        }
+      },
+      "schemaFiles": []
+    },
+    "BypassAuthentication": {
+      "description": "Will cause api key check by ambassador-auth to be skipped",
+      "type": "boolean",
+      "schemaFiles": [
+        "foundation-only"
+      ]
+    },
+    "Type": {
+      "description": "One of 'consumer/api/ui/job' until you rename the service correctly",
+      "type": "string",
+      "schemaFiles": []
+    },
+    "CronSchedule": {
+      "description": "Schedule for cronjobs. Use https://crontab.guru/ to generate schedules",
+      "type": "string",
+      "schemaFiles": [
+        "job"
+      ]
+    },
+    "ExecutionBehaviour": {
+      "description": "Defaults to 'schedule'. Use 'manual-trigger' to disable schedule, this means the job must be invoked directly using sre.ops-board.",
+      "type": "string",
+      "schemaFiles": [
+        "job"
+      ]
+    }
+  }
+}
