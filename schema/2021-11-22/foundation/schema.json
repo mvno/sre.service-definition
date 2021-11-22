@@ -50,7 +50,7 @@
       ]
     },
     "RoutesToServe": {
-      "description": "[NotInUse] Routes (api/ui) to expose public on the api-gateway for our customers.",
+      "description": "Routes (api/ui) to expose public on the api-gateway for our customers.",
       "type": "array",
       "items": {
         "type": "string"
@@ -274,29 +274,11 @@
       ]
     },
     "ExecutionBehaviour": {
-      "description": "[NotInUse] Defaults to 'schedule'. Use 'manual-trigger' to disable schedule, this means the job must be invoked directly using sre.ops-board.",
+      "description": "Defaults to 'schedule'. Use 'manual-trigger' to disable schedule, this means the job must be invoked directly using sre.ops-board.",
       "type": "string",
       "schemaFiles": [
         "job"
       ]
-    },
-    "BypassAuth": {
-      "description": "???",
-      "type": "boolean",
-      "schemaFiles": []
-    },
-    "UiRoutesToPublish": {
-      "description": "???",
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "schemaFiles": []
-    },
-    "DeploymentType": {
-      "description": "???",
-      "type": "string",
-      "schemaFiles": []
     }
   }
 }

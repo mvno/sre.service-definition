@@ -117,7 +117,7 @@ function Generate-SubSchemas
 	$latestSchema = Join-Path $latestFolder "schema.json"
 	$newSchemaFolder = Join-Path $PWD "schema" $schemaDate "foundation"
 	$newSchema = Join-Path $newSchemaFolder "schema.json"	
-	New-Item -ItemType Directory -Force -Path $newSchema | Out-Null
+	New-Item -ItemType Directory -Force -Path $newSchemaFolder | Out-Null
 	Copy-Item $latestSchema $newSchema -Force | Out-Null
 
 	Generate-Schema "consumer"
