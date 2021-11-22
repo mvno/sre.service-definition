@@ -5,7 +5,7 @@
     
     <IsReleaseAsset>true</IsReleaseAsset>
     
-    <Title>Sre.ServiceDefinition</Title>
+    <Title>sre.service-definition</Title>
     <Authors>Mvno</Authors>
     <Description>Contains a class intended to be used alongside Microsoft.Extensions.Configuration and Microsoft.Extensions.Options for reading and parsing Mvno Service Definition files.</Description>
     <Copyright>Mvno 2021</Copyright>

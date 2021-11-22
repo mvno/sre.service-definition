@@ -1,4 +1,4 @@
-﻿namespace Sre.ServiceDefinition.Options
+﻿namespace sre.service_definition.options
 {
 	public class ServiceDefinitionOptions
 	{
