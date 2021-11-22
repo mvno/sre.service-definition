@@ -135,7 +135,7 @@ function Generate-LatestSchema
 	$schemaLatest = Join-Path $schema "latest"
 	$schemaPath = Join-Path $schemaLatest "foundation" "schema.json"
 	$latestSchema = Get-Content $schemaPath | ConvertFrom-Json
-	$latestSchema.'$id' = "https://mvno.dk/json/$schemaDate/foundation/schema.json"
+	$latestSchema.'$id' = "https://mvno.dk/json/servicedefinition/$schemaDate/foundation/schema.json"
 
 	$fieldsFound = @{}
 	Write-Host ""
