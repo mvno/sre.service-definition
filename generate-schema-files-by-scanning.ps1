@@ -97,19 +97,29 @@ function Generate-Schema
 		$newScheme.properties | Add-Member -MemberType NoteProperty -Name ($_.Name) -Value ($_.Value) -Force
 	}
 
-	$schemaPath = Join-Path $schemaLatest $type "schema.json"
-	New-Item -ItemType Directory -Force -Path $schemaPath | Out-Null
-	Write-Host "Writing sub schema '$type' to latest: $schemaPath"
-	$newScheme | ConvertTo-Json -Depth 100 | Set-Content $schemaPath -Force
+	$schemaFolder = Join-Path $schemaLatest $type
+	$schema = Join-Path $schemaFolder "schema.json"
+	New-Item -ItemType Directory -Force -Path $schemaFolder | Out-Null
+	Write-Host "Writing sub schema '$type' to latest: $schema"
+	$newScheme | ConvertTo-Json -Depth 100 | Set-Content $schema -Force
 
-	$schemaPath = Join-Path $schemaDateFolder $type "schema.json"
-	New-Item -ItemType Directory -Force -Path $schemaPath | Out-Null
-	Write-Host "Writing sub schema '$type' to latest: $schemaPath"
-	$newScheme | ConvertTo-Json -Depth 100 | Set-Content $schemaPath -Force
+	$schemaFolder = Join-Path $schemaDateFolder $type
+	$schema = Join-Path $schemaFolder "schema.json"
+	New-Item -ItemType Directory -Force -Path $schemaFolder | Out-Null
+	Write-Host "Writing sub schema '$type' to latest: $schema"
+	$newScheme | ConvertTo-Json -Depth 100 | Set-Content $schema -Force
 }
 
 function Generate-SubSchemas
 {
+	$schemaDate = (Get-Date -Format "yyyy-MM-dd")
+	$latestFolder = Join-Path $PWD "schema" "latest" "foundation"
+	$latestSchema = Join-Path $latestFolder "schema.json"
+	$newSchemaFolder = Join-Path $PWD "schema" $schemaDate "foundation"
+	$newSchema = Join-Path $newSchemaFolder "schema.json"	
+	New-Item -ItemType Directory -Force -Path $newSchema | Out-Null
+	Copy-Item $latestSchema $newSchema -Force | Out-Null
+
 	Generate-Schema "consumer"
 	Generate-Schema "api"
 	Generate-Schema "job"
@@ -124,10 +134,6 @@ function Generate-LatestSchema
 	$schema = Join-Path $PWD "schema"
 	$schemaLatest = Join-Path $schema "latest"
 	$schemaPath = Join-Path $schemaLatest "foundation" "schema.json"
-	$newSchemeFolder = Join-Path $PWD "schema" $schemaDate "foundation"
-	$newSchemePath = Join-Path $newSchemeFolder "schema.json"
-	New-Item -ItemType Directory -Force -Path $newSchemeFolder | Out-Null
-
 	$latestSchema = Get-Content $schemaPath | ConvertFrom-Json
 	$latestSchema.'$id' = "https://mvno.dk/json/$schemaDate/foundation/schema.json"
 
@@ -182,6 +188,4 @@ function Generate-LatestSchema
 
 	Write-Host "Writing new foundation schema to latest: $schemaPath"
 	$latestSchema | ConvertTo-Json -Depth 100 | Set-Content $schemaPath
-	Write-Host "Writing new foundation schema to latest: $newSchemePath"
-	$latestSchema | ConvertTo-Json -Depth 100 | Set-Content $newSchemePath
 }
