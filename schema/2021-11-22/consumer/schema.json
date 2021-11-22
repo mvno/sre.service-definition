@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "https://mvno.dk/json/2021-11-22/consumer/schema.json",
+  "$id": "https://mvno.dk/json/servicedefinition/2021-11-22/consumer/schema.json",
   "title": "Service Definition file",
   "description": "Schema for service definition files used by Mvno",
   "type": "object",
