@@ -65,6 +65,7 @@ function Build-SchemaProperty
 				{
 					$_.PSObject.Properties | % {
 						$newProp = Build-SchemaProperty $_
+						$newProp.PSObject.Properties.Remove("schemaFiles")
 						$description.items.properties | Add-Member -NotePropertyName $_.Name -NotePropertyValue $newProp -Force
 					}
 				}
@@ -78,9 +79,8 @@ function Generate-Schema
 {
 	param([string]$type)
 
-	$schema = Join-Path $PWD "schema"
-	$schemaLatest = Join-Path $schema "latest"
-	$schemaPath = Join-Path $schemaLatest "schema.json"
+	$schemaLatest = Join-Path $PWD "schema" "latest" 
+	$schemaPath = Join-Path $schemaLatest "foundation" "schema.json"
 	$latestSchema = Get-Content $schemaPath | ConvertFrom-Json
 	$properties = $latestSchema.Properties.PSObject.Properties.Copy()
 	$selectedProperties = $properties | Where { $_.Value.schemaFiles -eq $null -Or $_.Value.schemaFiles -contains $type -Or $_.Value.schemaFiles.Count -eq 0 } 
@@ -88,6 +88,7 @@ function Generate-Schema
 	Write-Host "Writing sub schema '$type' to latest:"
 	$newScheme = $latestSchema
 	$newScheme.PSObject.Properties.Remove("properties")
+	$newScheme.'$id' = $newScheme.'$id'.Replace("foundation",$type)
 	$newProperties = [PSCustomObject]@{}
 	$newScheme | Add-Member -MemberType NoteProperty -Name "properties" -Value $newProperties -Force
 	$selectedProperties | % {
@@ -95,7 +96,9 @@ function Generate-Schema
 		$newScheme.properties | Add-Member -MemberType NoteProperty -Name ($_.Name) -Value ($_.Value) -Force
 	}
 
-	$newScheme | ConvertTo-Json -Depth 100 | Set-Content (Join-Path $schemaLatest "$type-schema.json") -Force
+	$schemaPath = Join-Path $schemaLatest $type
+	New-Item -ItemType Directory -Force -Path $schemaPath | Out-Null
+	$newScheme | ConvertTo-Json -Depth 100 | Set-Content (Join-Path $schemaPath "schema.json") -Force
 }
 
 function Generate-SubSchemas
@@ -110,22 +113,17 @@ function Generate-LatestSchema
 {
 	param([string[]] $paths = @("C:\Users\chmi\source\search"))
 	
-	$fieldsFound = @{}
-
+	$schemaDate = (Get-Date -Format "yyyy-MM-dd")
 	Write-Host "Creating backup of current latest schemas:"
-	$latestVersion = Join-Path $PWD "schema" "latest"
-	$currentVersion = Join-Path $PWD "schema" (Get-Date -Format "yyyy-MM-dd")
+	$currentVersion = Join-Path $PWD "schema" $schemaDate
 	New-Item -ItemType Directory -Force -Path $currentVersion | Out-Null
-	$schemasToCopy = GCI $latestVersion -Filter *.json
+	$schemasToCopy = GCI (Join-Path $PWD "schema" "latest")
 	$schemasToCopy | % {
-		$current = Join-Path $currentVersion $_.Name
-		if((Test-Path $current) -eq $false)
-		{
-			Write-Host "  - Copying $_ -> $current"
-			Copy-Item $_ $current -Force
-		}
+		Write-Host "  - Copying $_ -> $currentVersion"
+		Copy-Item $_ $currentVersion -Recurse -Force
 	}
 
+	$fieldsFound = @{}
 	Write-Host ""
 	$paths | % {
 		Write-Host "Scanning for fields: " $_
@@ -154,7 +152,7 @@ function Generate-LatestSchema
 	Write-Host "Adding missing fields to latest schema:"
 	$schema = Join-Path $PWD "schema"
 	$schemaLatest = Join-Path $schema "latest"
-	$schemaPath = Join-Path $schemaLatest "schema.json"
+	$schemaPath = Join-Path $schemaLatest "foundation" "schema.json"
 	$latestSchema = Get-Content $schemaPath | ConvertFrom-Json
 	$knownFields = $latestSchema.Properties.PSObject.Properties.Name
 
@@ -171,11 +169,14 @@ function Generate-LatestSchema
 	$fieldsToRemove = $latestSchema.Properties.PSObject.Properties.Name | Where { $fieldsFound.Keys -notcontains $_ }
 	$fieldsToRemove | % {
 		Write-Host "  - "$_
-		$latestSchema.properties."$_".Description = "[NotInUse] " + $latestSchema.properties."$_".Description
+		if($latestSchema.properties."$_".Description.Contains("[NotInUse]") -eq $false)
+		{
+			$latestSchema.properties."$_".Description = "[NotInUse] " + $latestSchema.properties."$_".Description
+		}
 	#	$latestSchema.properties.PSObject.Properties.Remove($_)
 	}
 
-	Write-Host "Writing new schemas to latest:"
+	Write-Host "Writing new foundation schema to latest: $schemaPath"
 	$latestSchema | ConvertTo-Json -Depth 100 | Set-Content $schemaPath
 
 }
