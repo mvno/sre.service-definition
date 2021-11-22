@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "https://mvno.dk/json/2021-11-18/sdfile.schema.json",
+  "$id": "https://mvno.dk/json/2021-11-22/foundation/schema.json",
   "title": "Service Definition file",
   "description": "Schema for service definition files used by Mvno",
   "type": "object",
@@ -50,7 +50,7 @@
       ]
     },
     "RoutesToServe": {
-      "description": "Routes (api/ui) to expose public on the api-gateway for our customers.",
+      "description": "[NotInUse] Routes (api/ui) to expose public on the api-gateway for our customers.",
       "type": "array",
       "items": {
         "type": "string"
@@ -82,7 +82,7 @@
       ]
     },
     "RequestTimeout": {
-      "description": "Timeout for incoming requests for the fields ApiRoutesToPublish and UiRoutesToServe in milliseconds.",
+      "description": "Timeout for incoming requests for the fields ApiRoutesToPublish and RoutesToServe in milliseconds.",
       "type": "integer",
       "exclusiveMinimum": 0,
       "schemaFiles": [
@@ -167,7 +167,7 @@
       "description": "[NotInUse] Gives the pod access to the local /settings folder.",
       "type": "boolean",
       "schemaFiles": [
-        "foundation-only"
+        "foUundation-only"
       ]
     },
     "ServiceAccount": {
@@ -274,11 +274,29 @@
       ]
     },
     "ExecutionBehaviour": {
-      "description": "Defaults to 'schedule'. Use 'manual-trigger' to disable schedule, this means the job must be invoked directly using sre.ops-board.",
+      "description": "[NotInUse] Defaults to 'schedule'. Use 'manual-trigger' to disable schedule, this means the job must be invoked directly using sre.ops-board.",
       "type": "string",
       "schemaFiles": [
         "job"
       ]
+    },
+    "BypassAuth": {
+      "description": "???",
+      "type": "boolean",
+      "schemaFiles": []
+    },
+    "UiRoutesToPublish": {
+      "description": "???",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "schemaFiles": []
+    },
+    "DeploymentType": {
+      "description": "???",
+      "type": "string",
+      "schemaFiles": []
     }
   }
 }

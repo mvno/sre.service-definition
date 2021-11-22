@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "https://mvno.dk/json/2021-11-18/sdfile.schema.json",
+  "$id": "https://mvno.dk/json/2021-11-22/job/schema.json",
   "title": "Service Definition file",
   "description": "Schema for service definition files used by Mvno",
   "type": "object",
@@ -27,11 +27,6 @@
           "System"
         ]
       }
-    },
-    "Replicas": {
-      "description": "Number of pods running in kubernetes.",
-      "type": "integer",
-      "exclusiveMinimum": 0
     },
     "Databases": {
       "description": "Describes which databases the pod will have access to.",
@@ -80,6 +75,14 @@
     },
     "Type": {
       "description": "One of 'consumer/api/ui/job' until you rename the service correctly",
+      "type": "string"
+    },
+    "CronSchedule": {
+      "description": "Schedule for cronjobs. Use https://crontab.guru/ to generate schedules",
+      "type": "string"
+    },
+    "ExecutionBehaviour": {
+      "description": "Defaults to 'schedule'. Use 'manual-trigger' to disable schedule, this means the job must be invoked directly using sre.ops-board.",
       "type": "string"
     }
   }
