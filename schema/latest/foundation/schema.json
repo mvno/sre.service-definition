@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "https://mvno.dk/json/servicedefinition/2021-11-22/foundation/schema.json",
+  "$id": "https://mvno.dk/json/servicedefinition/2021-11-23/foundation/schema.json",
   "title": "Service Definition file",
   "description": "Schema for service definition files used by Mvno",
   "type": "object",
@@ -26,7 +26,7 @@
       ]
     },
     "RunUnderAccount": {
-      "description": "Defaults to Local which has the lowest degree of permissions like no database access.",
+      "description": "Defaults to Local which has the lowest degree of permissions like no database access. Only relevant onprem.",
       "type": "string",
       "items": {
         "type": "string",
@@ -40,7 +40,7 @@
       "schemaFiles": []
     },
     "ApiRoutesToPublish": {
-      "description": "[Obsolete] Use 'RoutesToServe' instead. If specified, and a kubernetes cluster is included in the deploy, it will setup these URL's to forward to the deployed service.",
+      "description": "[Obsolete] Use 'RoutesToPublish' instead. If specified, and a kubernetes cluster is included in the deploy, it will setup these URL's to forward to the deployed service.",
       "type": "array",
       "items": {
         "type": "string"
@@ -49,7 +49,7 @@
         "api"
       ]
     },
-    "RoutesToServe": {
+    "RoutesToPublish": {
       "description": "Routes (api/ui) to expose public on the api-gateway for our customers.",
       "type": "array",
       "items": {
