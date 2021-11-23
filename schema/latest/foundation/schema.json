@@ -163,13 +163,6 @@
         "foundation-only"
       ]
     },
-    "GrantContainerAccessToSettings": {
-      "description": "[NotInUse] Gives the pod access to the local /settings folder.",
-      "type": "boolean",
-      "schemaFiles": [
-        "foUundation-only"
-      ]
-    },
     "ServiceAccount": {
       "description": "Overrules the service account that the pod will be run under.",
       "type": "string",
