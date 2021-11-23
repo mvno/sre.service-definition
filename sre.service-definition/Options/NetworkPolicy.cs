@@ -1,6 +1,6 @@
 namespace sre.service_definition.options
 {
-	public class Egress
+	public class NetworkPolicy
 	{
 		public string Service { get; set; }
 
