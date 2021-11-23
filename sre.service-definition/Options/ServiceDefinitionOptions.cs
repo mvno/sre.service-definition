@@ -11,6 +11,8 @@ namespace sre.service_definition.options
 
 		public NetworkPolicy[] Ingress { get; set; }
 
+		public Database[] Databases { get; set; }
+
 		public bool UseHttps { get; set; }
 
 		public string Type { get; set; }
