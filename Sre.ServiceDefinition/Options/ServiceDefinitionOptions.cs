@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace sre.service_definition.options
+﻿namespace Sre.ServiceDefinition.Options
 {
+	using System;
+	using System.Collections.Generic;
+
 	public class ServiceDefinitionOptions
 	{
 		public const string Section = "Sd";
