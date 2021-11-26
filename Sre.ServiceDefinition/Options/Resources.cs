@@ -1,4 +1,4 @@
-﻿namespace sre.service_definition.options
+﻿namespace Sre.ServiceDefinition.Options
 {
 	public class Resources
 	{

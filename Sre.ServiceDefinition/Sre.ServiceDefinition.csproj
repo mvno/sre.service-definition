@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    
+
     <IsReleaseAsset>true</IsReleaseAsset>
-    
-    <Title>sre.service-definition</Title>
+
+    <Title>Sre.ServiceDefinition</Title>
     <Authors>Mvno</Authors>
     <Description>Contains a class intended to be used alongside Microsoft.Extensions.Configuration and Microsoft.Extensions.Options for reading and parsing Mvno Service Definition files.</Description>
     <Copyright>Mvno 2021</Copyright>
@@ -13,7 +13,8 @@
     <PackageLicenseUrl>https://github.com/mvno/sre.service-definition/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/mvno/sre.service-definition</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>mvno sdfile sdjson servicedefinition</PackageTags>
+    <PackageTags>mvno sdfile sdjson servicedefinition service-definition</PackageTags>
+    <PackageId>Sre.ServiceDefinition</PackageId>
   </PropertyGroup>
 
 </Project>
