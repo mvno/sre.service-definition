@@ -274,6 +274,8 @@
       ]
     },
     "Kafka": {
+      "description": "Kafka access.",
+      "type": "object",
       "Topics": {
         "description": "Describes the topics you want access to.",
         "type": "array",
@@ -294,8 +296,8 @@
             }
           }
         }
-      },
-      "schemaFiles": [],
+      }
+    },
     "RunInCloud": {
       "description": "For applications in the default namespace which should start in the cloud and not in proxy to onprem mode",
       "type": "boolean",
