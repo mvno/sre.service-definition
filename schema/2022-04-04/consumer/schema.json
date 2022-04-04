@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "https://mvno.dk/json/servicedefinition/2022-04-04/consumer/schema.json",
+  "title": "Service Definition file",
+  "description": "Schema for service definition files used by Mvno",
+  "type": "object",
+  "properties": {
+    "Description": {
+      "description": "Fill out to get detailed info in the SCM about the service. Port and protocol are automatically added to the description.",
+      "type": "string"
+    },
+    "Port": {
+      "description": "Port number must be in the 13K-14K range.",
+      "type": "integer",
+      "exclusiveMinimum": 12999,
+      "exclusiveMaximum": 15000
+    },
+    "RunUnderAccount": {
+      "description": "Defaults to Local which has the lowest degree of permissions like no database access. Only relevant onprem.",
+      "type": "string",
+      "items": {
+        "type": "string",
+        "enum": [
+          "AD",
+          "Local",
+          "Network",
+          "System"
+        ]
+      }
+    },
+    "Replicas": {
+      "description": "Number of pods running in kubernetes.",
+      "type": "integer",
+      "exclusiveMinimum": 0
+    },
+    "Databases": {
+      "description": "Describes which databases the pod will have access to.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "The name of the database.",
+            "type": "string"
+          },
+          "Schemas": {
+            "description": "The schemas which the pod needs access to.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "Egress": {
+      "description": "External services you want access to.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Service": {
+            "description": "???",
+            "type": "string"
+          },
+          "Namespace": {
+            "description": "???",
+            "type": "string"
+          },
+          "Port": {
+            "description": "???",
+            "type": "integer"
+          },
+          "Protocol": {
+            "description": "???",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Type": {
+      "description": "One of 'consumer/api/ui/job' until you rename the service correctly",
+      "type": "string"
+    },
+    "Kafka": {
+      "description": "Kafka access.",
+      "type": "object",
+      "Topics": {
+        "description": "Describes the topics you want access to.",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Name": {
+              "description": "Topic name.",
+              "type": "string"
+            },
+            "Consume": {
+              "description": "Consumer access.",
+              "type": "boolean"
+            },
+            "Produce": {
+              "description": "Producer access.",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "RunInCloud": {
+      "description": "For applications in the default namespace which should start in the cloud and not in proxy to onprem mode",
+      "type": "boolean"
+    }
+  }
+}
