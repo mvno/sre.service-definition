@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "https://mvno.dk/json/servicedefinition/2021-11-23/api/schema.json",
+  "$id": "https://mvno.dk/json/servicedefinition/2022-04-04/api/schema.json",
   "title": "Service Definition file",
   "description": "Schema for service definition files used by Mvno",
   "type": "object",
@@ -133,6 +133,35 @@
     "Type": {
       "description": "One of 'consumer/api/ui/job' until you rename the service correctly",
       "type": "string"
+    },
+    "Kafka": {
+      "description": "Kafka access.",
+      "type": "object",
+      "Topics": {
+        "description": "Describes the topics you want access to.",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Name": {
+              "description": "Topic name.",
+              "type": "string"
+            },
+            "Consume": {
+              "description": "Consumer access.",
+              "type": "boolean"
+            },
+            "Produce": {
+              "description": "Producer access.",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "RunInCloud": {
+      "description": "For applications in the default namespace which should start in the cloud and not in proxy to onprem mode",
+      "type": "boolean"
     }
   }
 }
