@@ -5,6 +5,16 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sre.ServiceDefinition", "Sre.ServiceDefinition\Sre.ServiceDefinition.csproj", "{BCA51BC4-D70F-4B12-83F3-3887F049EF70}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{82ACE64E-CE72-4C6A-B464-8C5A088D27E7}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		build.json = build.json
+		cloudbuild.json = cloudbuild.json
+		generate-schema-files-by-scanning.ps1 = generate-schema-files-by-scanning.ps1
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

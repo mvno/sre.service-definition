@@ -27,9 +27,10 @@
 
 		public string RunUnderAccount { get; set; }
 
-		[Obsolete]
+		[Obsolete("This field is no longer used for its original intended purpose. If you need this information inside your own application you need to store and retrieve it some other way.")]
 		public List<string> ApiRoutesToPublish { get; set; }
 
+		[Obsolete("This field is no longer used for its original intended purpose. If you need this information inside your own application you need to store and retrieve it some other way.")]
 		public List<string> RoutesToPublish { get; set; }
 
 		public string Namespace { get; set; }
